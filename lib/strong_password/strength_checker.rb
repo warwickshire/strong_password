@@ -8,14 +8,24 @@ module StrongPassword
       @base_password = password.dup
     end
     
-    def is_weak?(min_entropy: BASE_ENTROPY, use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
+    def is_weak?(opts={})
+      min_entropy = opts[:min_entropy] || BASE_ENTROPY
+      use_dictionary = opts[:use_dictionary] || false
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+
       !is_strong?(min_entropy: min_entropy,
                   use_dictionary: use_dictionary, 
                   min_word_length: min_word_length, 
                   extra_dictionary_words: extra_dictionary_words)
     end
 
-    def is_strong?(min_entropy: BASE_ENTROPY, use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
+    def is_strong?(opts={})
+      min_entropy = opts[:min_entropy] || BASE_ENTROPY
+      use_dictionary = opts[:use_dictionary] || false
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+
       weak = (EntropyCalculator.calculate(base_password) < min_entropy) ||
              (EntropyCalculator.calculate(base_password.downcase) < min_entropy) ||
              (QwertyAdjuster.new(base_password).is_weak?(min_entropy: min_entropy))
@@ -28,7 +38,11 @@ module StrongPassword
       end
     end
     
-    def calculate_entropy(use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
+    def calculate_entropy(opts={})
+      use_dictionary = opts[:use_dictionary] || false
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+
       entropies = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(base_password.downcase), QwertyAdjuster.new(base_password).adjusted_entropy]
       entropies << DictionaryAdjuster.new(base_password).adjusted_entropy(min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words) if use_dictionary
       entropies.min

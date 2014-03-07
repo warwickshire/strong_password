@@ -973,13 +973,21 @@ module StrongPassword
       @base_password = password.downcase
     end
 
-    def is_strong?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
+    def is_strong?(opts={})
+      min_entropy = opts[:min_entropy] || 18
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+
       adjusted_entropy(entropy_threshhold: min_entropy,
                        min_word_length: min_word_length,
                        extra_dictionary_words: extra_dictionary_words) >= min_entropy
     end
 
-    def is_weak?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
+    def is_weak?(opts={})
+      min_entropy = opts[:min_entropy] || 18
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+
       !is_strong?(min_entropy: min_entropy, min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words)
     end
 
@@ -988,7 +996,11 @@ module StrongPassword
     # processing.
     # Note that we only check for the first matching word up to the threshhold if set.
     # Subsequent matching words are not deductd.
-    def adjusted_entropy(min_word_length: 4, extra_dictionary_words: [], entropy_threshhold: -1)
+    def adjusted_entropy(opts={})
+      min_word_length = opts[:min_word_length] || 4
+      extra_dictionary_words = opts[:extra_dictionary_words] || []
+      entropy_threshhold = opts[:entropy_threshhold] || -1
+      
       dictionary_words = Regexp.union( ( extra_dictionary_words + COMMON_PASSWORDS ).compact.reject{ |i| i.length < min_word_length } )
       min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
