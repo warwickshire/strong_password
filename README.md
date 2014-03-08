@@ -11,8 +11,6 @@ developed by Thomas Hruska.
 
 ## Installation
 
-NOTE: StrongPassword requires the use of Ruby 2.0.  Upgrade if you haven't already!
-
 Add this line to your application's Gemfile:
 
     gem 'strong_password', '~> 0.0.3'
