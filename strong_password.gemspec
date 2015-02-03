@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['bdmac97@gmail.com']
   spec.description   = 'Entropy-based password strength checking for Ruby and ActiveModel'
   spec.summary       = 'StrongPassword adds a class to check password strength and a validator for ActiveModel'
-  spec.homepage      = 'https://github.com/bdmac/strong_password'
+  spec.homepage      = 'https://github.com/warwickshire/strong_password'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
