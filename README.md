@@ -13,7 +13,7 @@ developed by Thomas Hruska.
 
 Add this line to your application's Gemfile:
 
-    gem 'strong_password', '~> 0.0.3'
+    gem 'strong_password', source: "http://path/to/local/gem/server"
 
 And then execute:
 
